@@ -1,0 +1,10 @@
+.mode csv
+.separator '|'
+
+.import AMfixed.dat AM
+
+.import ENfixed.dat EN
+
+.import HDfixed.dat HD
+
+UPDATE hd SET expired_date = substr(expired_date, 7, 4) || '-' || substr(expired_date, 1,2) || '-' || substr(expired_date, 4,2);

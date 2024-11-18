@@ -1,0 +1,27 @@
+Readme:
+
+These scripts were written to analyze the number of General-and-above class hams
+within 500 miles of zipcode 84092 an 28778 (where Tom Witherspoon lives in North
+Carolina).
+
+Stuart K7PWS was complaining that Tom Witherspoon's videos shows him running QRP
+and activating every single park yet Stuart had a lot of trouble activating parks
+here in Utah.  
+
+The graph in hamdensity.numbers shows there are 2.5 times the number of hams
+near Tom Witherspoon's parks in North Carolina than near us in Utah.  I also
+found from using Mariadb that it took over 2 hours to join three tables together
+and less than ten seconds with SQLite3.  I had to escape all quote marks within
+the CSV files for SQLite3. I did this manually with VSCode and I will write a
+simple sed script to do it in the future. the ..fixed.dat files are the CSV
+files with escaped quote marks.  SQLite3 does not tolerate quote marks when
+importing.
+
+The getall script downloads the latest weekly FCC callsign database and
+populates fcc.db with the AM, EN, and HD records.
+
+sql3.txt loads the zipcode files used in the scratchpad sql statements to tally
+the number of hams in a radius around a zipcode.  The zipcodes loaded into
+tables are downloaded from
+https://www.freemaptools.com/find-zip-codes-inside-radius.htm and need to be
+converted into a file with one zipcode per line.

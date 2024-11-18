@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# this script is derived from git@github.com:tcowan/fcc/getall
+
+# delete any current files
+echo "----- Removing temporary files -----"
+rm -rf l_amat.zip 
+rm -rf AM.dat EN.dat HD.dat 
+rm -rf AMfixed.dat ENfixed.dat HDfixed.dat
+
+# download the latest weekly FCC license database
+echo "----- Downloading the FCC database -----"
+
+#curl --output l_amat.zip https://data.fcc.gov/download/pub/uls/complete//l_amat.zip
+curl --output l_amat.zip https://data.fcc.gov/download/pub/uls/complete/l_amat.zip
+
+unzip l_amat.zip AM.dat EN.dat HD.dat
+
+echo "----- Cleaning up the FCC database files -----"
+
+sed 's/"/\\"/g'  AM.dat > AMfixed.dat 
+sed 's/"/\\"/g'  EN.dat > ENfixed.dat 
+sed 's/"/\\"/g'  HD.dat > HDfixed.dat 
+
+# load FCC database
+echo "----- Creating tables and loading data into database file fcc.db -----"
+
+sqlite3 fcc.db < sql.txt 
+sqlite3 fcc.db < sql2.txt 

@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+fcc='fcc.db'
+h='allhist.txt'
+
+# retrieve FCC data if fcc.db is missing or more than 10 days old
+dbdate=$(stat -c %Y $fcc)
+olddate=$(date +%s --date='10 days ago')
+if ! [ -f $fcc ] ||  [ $dbdate -lt $olddate ] ; then
+	echo "fcc.db is missing or greater than 10 days old...rebuilding"
+	./getall
+fi
+
+# output header
+#echo "!!Order!!,Call,Name,Exch1,UserText, " >h.txt
+echo "!!Order!!,Call,Name, " >$h
+
+# output all US active callsigns and first names to history file
+sqlite3 fcc.db ".separator ','" "select hd.call_sign, en.first_name from hd inner join am on  hd.unique_system_identifier = am.unique_system_identifier inner join en on hd.unique_system_identifier = en.unique_system_identifier where hd.license_status = 'A' order by hd.call_sign;" >>$h
