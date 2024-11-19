@@ -13,7 +13,7 @@ fi
 
 # output header
 #echo "!!Order!!,Call,Name,Exch1,UserText, " >h.txt
-echo "!!Order!!,Call,Name, " >$h
+echo "!!Order!!,Call,Name,State " >$h
 
 # output all US active callsigns and first names to history file
-sqlite3 fcc.db ".separator ','" "select hd.call_sign, en.first_name from hd inner join am on  hd.unique_system_identifier = am.unique_system_identifier inner join en on hd.unique_system_identifier = en.unique_system_identifier where hd.license_status = 'A' order by hd.call_sign;" >>$h
+sqlite3 fcc.db ".separator ','" " select hd.call_sign, en.first_name, en.state from hd inner join am on  hd.unique_system_identifier = am.unique_system_identifier inner join en on hd.unique_system_identifier = en.unique_system_identifier where hd.license_status = 'A' order by hd.call_sign;" >>$h
